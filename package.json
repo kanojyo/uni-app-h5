@@ -1,0 +1,25 @@
+{
+    "uni-app": {
+        "scripts": {
+            "custom-platform": {
+                "title": "自定义扩展名称",
+                "BROWSER": "",
+                "env": {
+                    "UNI_PLATFORM": ""
+                },
+                "define": {
+                    "CUSTOM-CONST": true
+                }
+            }
+        }
+    },
+    "scripts": {
+        "dev:h5": "npm run lint && cross-env NODE_ENV=production UNI_WATCH=true UNI_PLATFORM=h5 node build/build.js",
+        "build:h5": "npm run lint && cross-env NODE_ENV=production UNI_WATCH=false UNI_PLATFORM=h5 node build/build.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@dcloudio/uni-ui": "^1.0.0",
+        "weixin-js-sdk": "^1.4.0-test"
+    }
+}
