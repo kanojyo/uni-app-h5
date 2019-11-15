@@ -115,7 +115,8 @@
             "base" : ""
         },
         "title" : "XShop商城",
-        "domain" : "http://tdcsgzh.wuhanlst.com"
+        "domain" : "http://ly1.wuhanlst.com",
+		"publicPath": "./"
     },
     "mp-toutiao" : {
         "appid" : ""

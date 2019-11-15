@@ -62,7 +62,7 @@
 		mapActions
 	} from 'vuex';
 	import Account from '../../common/account/Account.js'
-
+	import { processUrl } from "../../common/request/url.js";
 	export default {
 		data() {
 			return {
@@ -73,6 +73,7 @@
 				loginWay: 0,
 				mobile: '',
 				code: '',
+				baseUrl:processUrl(),
 				// #ifdef H5
 				loginCode: '',
 				// #endif
@@ -87,6 +88,7 @@
 				this.goReferer()
 			}
 			// #endif
+			console.log(this.baseUrl)
 		},
 		methods: {
 			...mapActions(['login', 'getCartProducts', 'getUserinfo']),
@@ -145,7 +147,7 @@
 				let account = Account.init(code)
 				switch (code) {
 					case 'WxH5' : {
-						let url = '/addons/xshop/vendor/getAuthUrl?vendor=WxH5'
+						let url = this.baseUrl+'/addons/xshop/vendor/getAuthUrl?vendor=WxH5'
 						if (!!this.referer) url += '&payload[referer]=' + encodeURIComponent(this.referer)
 						window.location.href = url
 						break;

@@ -1,10 +1,12 @@
 import apis from "./apis";
 import tools from '@/common/tools'
 let publicPath = '';
-if(process.env.NODE_ENV === 'production'){
-    publicPath = 'http://zwgzh-cs.chzwzyy.com'
+if(process.env.NODE_ENV === 'development'){
+    publicPath = 'http://ly1.wuhanlst.com'
+}else if (process.env.NODE_ENV === 'test'){
+	publicPath = 'http://ly1.wuhanlst.com'
 }else{
-    publicPath = 'http://zwgzh-cs.chzwzyy.com'
+    publicPath = 'http://ly1.wuhanlst.com'
 }
 export default {
     // 接口主机地址
