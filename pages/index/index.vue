@@ -26,20 +26,29 @@
 			</view>
 		</view>
 		<!-- 分类 -->
-		<view class="cate-section">
+		<!-- <view class="cate-section">
 			<view class="cate-item" v-for="(item, index) in navList" :key="index" @click="navToLink(item)">
 				<image :src="item.image"></image>
 				<text>{{item.title}}</text>
 			</view>
-		</view>
-
-		<view class="ad-1" v-if="adList.length" @click="navToLink(adList[0])">
+		</view> -->
+		
+		<!-- <view class="ad-1" v-if="adList.length" @click="navToLink(adList[0])">
 			<image :src="adList[0].image" mode="scaleToFill"></image>
+		</view> -->
+		<view class="ad-2" v-if="adList.length">
+			<swiper class="scroll-message" id="scrollMessage" :autoplay="true" circular vertical>
+				<swiper-item class="text-item" v-for="(item,index) in adList" :key="index" @click="navToLink(item)">
+					<text>{{item.title}}</text>
+				</swiper-item>
+			</swiper>
+			<view class="detail">详情</view>
+			
 		</view>
 
 
 		<!-- 团购楼层 -->
-		<view class="f-header m-t" v-if="data.home_groupon_products && data.home_groupon_products.length" @click="goGroupCategory">
+		<!-- <view class="f-header m-t" v-if="data.home_groupon_products && data.home_groupon_products.length" @click="goGroupCategory">
 			<image src="/static/groupon-img.png"></image>
 			<view class="tit-box">
 				<text class="tit">精品团购</text>
@@ -59,19 +68,19 @@
 					<text class="under-price">￥{{item.skus[0].price}}</text>
 				</view>
 			</view>
-		</view>
+		</view> -->
 
 
 
 		<!-- 分类推荐楼层 -->
-		<view class="f-header m-t" v-if="data. home_recommend_products && data.home_recommend_products.length" @click="goCategory">
+		<!-- <view class="f-header m-t" v-if="data. home_recommend_products && data.home_recommend_products.length" @click="goCategory">
 			<image src="/static/h1.png"></image>
 			<view class="tit-box">
 				<text class="tit">分类精选</text>
 				<text class="tit2">Competitive Products For You</text>
 			</view>
 			<text class="yticon icon-you"></text>
-		</view>
+		</view> -->
 		<view class="hot-floor" v-for="(row, index) in data.home_recommend_products" :key="index">
 			<view class="cat_name">
 				{{row.title}}
@@ -83,17 +92,13 @@
 						<text class="title clamp">{{item.title}}</text>
 						<text class="price">￥{{item.skus[0].price}}</text>
 					</view>
-					<view class="more" @click="navToLink(row)">
+					<!-- <view class="more" @click="navToLink(row)">
 						<text>查看全部</text>
 						<text>More+</text>
-					</view>
+					</view> -->
 				</view>
 			</scroll-view>
 		</view>
-
-		
-
-
 	</view>
 </template>
 
@@ -120,9 +125,14 @@
 		},
 
 		onLoad() {
-			this.init()
+			this.init();
+			
+		},
+		onReady(){
+			// this.initSlide();
 		},
 		computed: {
+			
 		},
 		methods: {
 			...mapActions(['SAVE_HOME_PRODUCTS']),
@@ -137,14 +147,17 @@
 			},
 			getNavData() {
 				this.$http.post('nav', {
-					nav_type: [0, 1, 2]
+					// nav_type: [0, 1, 2]
+					nav_type: [0,2]
 				}).then(res => {
+					console.log(res.data[2])
 					this.carouselList = res.data[0] || []
 					this.navList = res.data[1] || []
 					this.adList = res.data[2] || []
 					this.titleNViewBackground = this.carouselList[0] ? (this.carouselList[0].params ? (this.carouselList[0].params['color'] || '') : '') : ''
 				})
 			},
+			//分类
 			goCategory() {
 				uni.switchTab({
 					url: '/pages/category/category'
@@ -176,8 +189,18 @@
 				uni.navigateTo({
 					url: '/pages/product/list?kw=' + kw
 				})
+			},
+			//banner 下面
+			initSlide(){
+				let scrollNav = document.querySeletor('#scrollMessage');
+				// let textNode = scrollNav.childNodes;
+				console.log(111)
+				console.log(scrollNav)
+				console.log(textNode)
+				console.log(textNode.length)
 			}
 		},
+		
 		// #ifndef MP
 		// 标题栏input搜索框点击
 		/* onNavigationBarSearchInputClicked: function(e) {
@@ -207,6 +230,7 @@
 			}
 		},
 		// #endif
+		
 		
 		onPullDownRefresh() {
 			this.init().then(e => {
@@ -389,6 +413,39 @@
 			height: 100%;
 		}
 	}
+	.ad-2 {
+		width:100%;
+		height:70upx;
+		padding:10upx 20upx;
+		background:#fff;
+		display:flex;
+		justify-content:space-between;
+		font-size: $font-sm+2upx;
+		overflow:hidden;
+		background:#fff url(../../static/trumpet.png) no-repeat 20upx center;
+		background-size:5%;
+		.scroll-message{
+			width:100%;
+			height:100%;
+			padding-left:60upx;
+			.text-item{
+				text{
+					line-height:2.0;
+					display:block;
+					color:$z-color-999;
+				}
+			}
+			
+		}
+		.detail{
+			color:$z-color-red;
+			width:120upx;
+			line-height:1.8;
+			text-align:center;
+			border:2upx solid $z-color-red;
+			border-radius:6upx;
+		}
+	}
 
 	/* 秒杀专区 */
 	.seckill-section {
@@ -440,6 +497,7 @@
 		.scoll-wrapper {
 			display: flex;
 			align-items: flex-start;
+			
 		}
 
 		.floor-item {
@@ -456,7 +514,7 @@
 			}
 
 			.price {
-				color: $uni-color-primary;
+				color: $z-color-red;
 			}
 			
 		}
@@ -552,7 +610,7 @@
 		}
 
 		.price {
-			color: $uni-color-primary;
+			color: $z-color-red;
 		}
 
 		.m-price {
@@ -586,7 +644,7 @@
 		margin: 20upx 0;
 		.cat_name {
 			background: #fff;
-			margin-left: 5px;
+			// margin-left: 5px;
 			padding: 20upx 0 20upx 20upx;
 			border-left: 3px solid #FC7592;
 			font-size: $font-base + 4upx;
@@ -617,7 +675,7 @@
 			padding: 20upx;
 			padding-right: 50upx;
 			border-radius: 6upx;
-			margin-left: 10upx;
+			// margin-left: 10upx;
 			background: #fff;
 			box-shadow: 1px 1px 5px rgba(0, 0, 0, .2);
 			position: relative;
@@ -627,23 +685,26 @@
 		.scoll-wrapper {
 			display: flex;
 			align-items: flex-start;
+			flex-wrap:wrap;
 		}
 
 		.floor-item {
-			width: 180upx;
-			margin-right: 20upx;
+			// width: 180upx;
+			width: 45%;
+			// margin-right: 20upx;
+			margin:0 2.5% 20upx 2.5%;
 			font-size: $font-sm+2upx;
 			color: $font-color-dark;
 			line-height: 1.8;
-
 			image {
-				width: 180upx;
-				height: 180upx;
+				// width: 180upx;
+				// height: 180upx;
+				width:100%;
+				height:300upx;
 				border-radius: 6upx;
 			}
-
 			.price {
-				color: $uni-color-primary;
+				color: $z-color-red;
 			}
 		}
 
@@ -705,7 +766,7 @@
 
 		.price {
 			font-size: $font-lg;
-			color: $uni-color-primary;
+			color: $z-color-red;
 			line-height: 1;
 		}
 		
