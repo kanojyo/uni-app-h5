@@ -116,6 +116,9 @@ export default {
 	'user.favorite': {
 		uri: 'user/favorite'
 	},
+	'user.orderNum':{
+		uri:'/user/getOrderNum'
+	},
 	/** 用户 ↑ */
 	
 	/** 订单 ↓ */
@@ -147,6 +150,12 @@ export default {
 		uri: 'order/applyRefund'
 	},
 	/** 订单 ↑ */
+	
+	/** 图片上传 ↑ */
+	'upload': {
+		uri: 'vendor/upload'
+	},
+	/** 图片上传 ↑ */
 	
 	/** 支付 */
 	pay: {

@@ -106,6 +106,7 @@
 			return {
 				tabCurrentIndex: 0,
 				navList: [{
+						index:0,
 						state: 0,
 						text: '全部',
 						loadingType: 'more',
@@ -114,6 +115,7 @@
 						page: 1
 					},
 					{
+						index:1,
 						state: 1,
 						text: '待付款',
 						loadingType: 'more',
@@ -122,6 +124,7 @@
 						page: 1
 					},
 					{
+						index:2,
 						state: 2,
 						text: '待收货',
 						loadingType: 'more',
@@ -130,21 +133,23 @@
 						page: 1
 					},
 					{
-						state: 3,
-						text: '待评价',
+						index:3,
+						state: 5,
+						text: '待发货',
 						loadingType: 'more',
 						orderList: [],
 						reload: true,
 						page: 1
 					},
-					/* {
-						state: 4,
-						text: '售后',
+					{
+						index:4,
+						state: 6,
+						text: '已完成',
 						loadingType: 'more',
 						orderList: [],
 						reload: true,
 						page: 1
-					} */
+					}
 				],
 				swiperHeight: '',
 				refund_order_sn: ''
@@ -155,7 +160,12 @@
 			/**
 			 * 修复app端点击除全部订单外的按钮进入时不加载数据的问题
 			 */
-			this.tabCurrentIndex = +options.state;
+			this.navList.forEach(item=>{
+				if(item.state == options.state){
+					this.tabCurrentIndex = item.index;
+				}
+			})
+			// this.tabCurrentIndex = +options.state;
 			// #ifndef MP
 			this.loadData()
 			// #endif

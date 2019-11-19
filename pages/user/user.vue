@@ -6,7 +6,7 @@
 			<view class="user-info-box">
 				<view class="portrait-box">
 					<!-- #ifdef H5 -->
-					<img class="portrait" :src="userinfo.avatar || '/static/missing-face.png'" />
+					<img class="portrait" :src="userinfo.avatar || '/static/missing-face.png'"  @click="goUserInfo"/>
 					<!-- #endif -->
 					<!-- #ifndef H5 -->
 					<image class="portrait" :src="userinfo.avatar || '/static/missing-face.png'"></image>
@@ -46,20 +46,34 @@
 			
 			<view class="order-section">
 				<view class="order-item" @click="navTo('/pages/order/order?state=0')" hover-class="common-hover"  :hover-stay-time="50">
-					<text class="yticon icon-shouye"></text>
+					<view class="yticon icon-shouye">
+						<!-- <uni-badge text="1" type="primary"></uni-badge> -->
+					</view>
 					<text>全部订单</text>
 				</view>
 				<view class="order-item" @click="navTo('/pages/order/order?state=1')"  hover-class="common-hover" :hover-stay-time="50">
-					<text class="yticon icon-daifukuan"></text>
+					<view class="yticon icon-daifukuan">
+						<uni-badge :text="orderNum.no_pay_num>99?'99+':orderNum.no_pay_num" type="primary"></uni-badge>
+					</view>
 					<text>待付款</text>
 				</view>
 				<view class="order-item" @click="navTo('/pages/order/order?state=2')" hover-class="common-hover"  :hover-stay-time="50">
-					<text class="yticon icon-yishouhuo"></text>
+					<view class="yticon icon-yishouhuo">
+						<uni-badge :text="orderNum.no_send_num>99?'99+':orderNum.no_send_num" type="primary"></uni-badge>
+					</view>
 					<text>待收货</text>
 				</view>
-				<view class="order-item" @click="navTo('/pages/order/order?state=3')" hover-class="common-hover"  :hover-stay-time="50">
-					<text class="yticon icon-pingjia"></text>
-					<text>待评价</text>
+				<view class="order-item" @click="navTo('/pages/order/order?state=5')" hover-class="common-hover"  :hover-stay-time="50">
+					<view class="yticon icon-pingjia">
+						<uni-badge :text="orderNum.no_receive_num>99?'99+':orderNum.no_receive_num" type="primary"></uni-badge>
+					</view>
+					<text>待发货</text>
+				</view>
+				<view class="order-item" @click="navTo('/pages/order/order?state=6')" hover-class="common-hover"  :hover-stay-time="50">
+					<view class="yticon icon-pingjia">
+						<uni-badge :text="orderNum.over_num>99?'99+':orderNum.over_num" type="primary"></uni-badge>
+					</view>
+					<text>已完成</text>
 				</view>
 			</view>
 			<!-- 浏览历史 -->
@@ -92,6 +106,7 @@
 					版权所有
 				</view>
 				
+				
 			</view>
 		</view>
 			
@@ -100,13 +115,15 @@
 </template>  
 <script>  
 	import listCell from '@/components/mix-list-cell';
+	import {uniBadge} from '@dcloudio/uni-ui'
     import {  
         mapState, mapActions
     } from 'vuex';  
 	let startY = 0, moveY = 0, pageAtTop = true;
     export default {
 		components: {
-			listCell
+			listCell,
+			uniBadge
 		},
 		data(){
 			return {
@@ -114,7 +131,8 @@
 				coverTransition: '0s',
 				moving: false,
 				viewList: [],
-				appVersion: 0
+				appVersion: 0,
+				orderNum:{},
 			}
 		},
 		onLoad(){
@@ -157,7 +175,7 @@
 			...mapActions(['logout']),
 			init(){
 				return new Promise ((resolve, reject) => {
-					Promise.all([this.getViewList()]).then(res => {
+					Promise.all([this.getViewList(),this.getOrderNum()]).then(res => {
 						resolve(res)
 					}).catch(e => { reject(e) })
 				})
@@ -165,6 +183,16 @@
 			getViewList() {
 				this.$http.post('user.viewlist').then(res => {
 					this.viewList = res.data.data
+				})
+			},
+			getOrderNum(){
+				this.$http.get('user.orderNum').then(res => {
+					this.orderNum = res.data
+				})
+			},
+			goUserInfo(){
+				uni.navigateTo({
+					url: '/pages/userinfo/userinfo'
 				})
 			},
 			/**
@@ -459,6 +487,12 @@
 			font-size: 48upx;
 			margin-bottom: 18upx;
 			color: #fa436a;
+			position:relative;
+			.uni-badge{
+				position:absolute;
+				right:-14upx;
+				top:-14upx;
+			}
 		}
 		.icon-shouhoutuikuan{
 			font-size:44upx;
