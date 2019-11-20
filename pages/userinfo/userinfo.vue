@@ -127,11 +127,11 @@
 						let imgSize = res.tempFiles[0].size/1000/1024;
 						let state = false;
 						if(imgSize>4){
-							// uni.showToast({
-							//     title: '上传的图片不能大于4M',
-							//     duration: 2000
-							// });
-							this.$message.error('上传的图片不能大于4M')
+							uni.showToast({
+							    title: '上传的图片不能大于4M',
+								icon:'none',
+							    duration: 2000
+							});
 							state = true;
 						}
 						if(state){
@@ -148,17 +148,21 @@
 									if(_res.code == 1){
 										this.form.avatar =_res.data.url;
 									}else if(_res.code == 10000){
-										this.$message.error(_res.msg)
-										// uni.showToast({
-										//     title: _res.msg,
-										//     duration: 2000
-										// });
+										uni.showToast({
+										    title: _res.msg,
+											icon:'none',
+										    duration: 2000,
+										});
 									}
 								},
 								fail:(res)=>{
 									console.log(res)
 									console.log('上传失败')
-									this.$message.error('上传失败')
+									uni.showToast({
+									    title: '上传失败',
+										icon:'none',
+									    duration: 2000,
+									});
 								}
 							});
 						}
@@ -169,9 +173,17 @@
 				this.$http.post('user.info.edit',this.form).then(res =>{
 					console.log(res)
 					if(res.code ==1){
-						this.$message.success('保存资料成功')
+						uni.showToast({
+						    title: '保存资料成功',
+							icon:'success',
+						    duration: 2000,
+						});
 					}else{
-						this.$message.error('保存资料失败')
+						uni.showToast({
+						    title: '保存资料失败',
+							icon:'none',
+						    duration: 2000,
+						});
 					}
 				})
 			}
@@ -285,6 +297,7 @@
 			box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
 		}
 	}
-
-
+	uni-toast{
+		font-size:14px;
+	}
 </style>
