@@ -47,7 +47,7 @@
 			<view class="order-section">
 				<view class="order-item" @click="navTo('/pages/order/order?state=0')" hover-class="common-hover"  :hover-stay-time="50">
 					<view class="yticon icon-shouye">
-						<!-- <uni-badge text="1" type="primary"></uni-badge> -->
+						<uni-badge text="" type="primary"></uni-badge>
 					</view>
 					<text>全部订单</text>
 				</view>
@@ -188,6 +188,19 @@
 			getOrderNum(){
 				this.$http.get('user.orderNum').then(res => {
 					this.orderNum = res.data
+					if(this.orderNum.no_pay_num ==0){
+						this.orderNum.no_pay_num ='';
+					}
+					if(this.orderNum.no_receive_num ==0){
+						this.orderNum.no_receive_num ='';
+					}
+					if(this.orderNum.no_send_num ==0){
+						this.orderNum.no_send_num ='';
+					}
+					if(this.orderNum.over_num ==0){
+						this.orderNum.over_num ='';
+					}
+					
 				})
 			},
 			goUserInfo(){
@@ -490,8 +503,8 @@
 			position:relative;
 			.uni-badge{
 				position:absolute;
-				right:-14upx;
-				top:-14upx;
+				right:-20upx;
+				top:-24upx;
 			}
 		}
 		.icon-shouhoutuikuan{

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import store from './store'
 import App from './App'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css';
 import { HttpWidget } from '@/common/request/index.js'
 import parseHtml from '@/common/parseHtml.js'
 import tools from '@/common/tools'
@@ -9,6 +11,7 @@ import meRouter from '@/common/merouter'
 import wxApi from '@/common/wxApi'
 // #endif
 import api from '@/common/request/apis/index'
+Vue.use(ElementUI)
 Vue.use(new HttpWidget())
 
 const msg = (title, duration=1500, mask=false, icon='none')=>{

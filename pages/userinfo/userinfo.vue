@@ -94,13 +94,15 @@
 			},
 			getUserInfo(){
 				this.$http.get('user.info').then(res => {
-					this.userInfo = res.data;
-					this.form.avatar = this.userInfo.avatar;
-					this.form.nickname = this.userInfo.nickname;
-					this.form.gender = this.userInfo.gender;
-					this.form.birthday = this.userInfo.birthday;
-					this.form.mobile = this.userInfo.mobile;
-					this.current = this.form.gender;
+					if(res.code ==1){
+						this.userInfo = res.data;
+						this.form.avatar = this.userInfo.avatar;
+						this.form.nickname = this.userInfo.nickname;
+						this.form.gender = this.userInfo.gender;
+						this.form.birthday = this.userInfo.birthday;
+						this.form.mobile = this.userInfo.mobile;
+						this.current = this.form.gender;
+					}
 				})
 			},
 			radioChange(evt) {
@@ -122,37 +124,56 @@
 				    sourceType: ['album'], //从相册选择
 				    success: (res)=> {
 						// console.log(res)
-						// console.log(res.tempFiles[0].size/1000/1024)
-				  //       console.log(JSON.stringify(res.tempFilePaths));
-						const tempFilePaths = res.tempFilePaths;
-						console.log(tempFilePaths)
-						uni.uploadFile({
-							url: this.baseUrl+'/addons/xshop/vendor/upload', //仅为示例，非真实的接口地址
-							filePath: tempFilePaths[0],
-							name: 'file',
-							success: (res) => {
-								let _res = JSON.parse(res.data)
-								if(_res.code == 1){
-									this.form.avatar =_res.data.url;
-								}else if(_res.code == 10000){
-									// console.log(_res.msg)
-									uni.showToast({
-									    title: _res.msg,
-									    duration: 2000
-									});
-									// alert(_res.msg)
+						let imgSize = res.tempFiles[0].size/1000/1024;
+						let state = false;
+						if(imgSize>4){
+							// uni.showToast({
+							//     title: '上传的图片不能大于4M',
+							//     duration: 2000
+							// });
+							this.$message.error('上传的图片不能大于4M')
+							state = true;
+						}
+						if(state){
+							return false
+						}else{
+							const tempFilePaths = res.tempFilePaths;
+							console.log(tempFilePaths)
+							uni.uploadFile({
+								url: this.baseUrl+'/addons/xshop/vendor/upload', //仅为示例，非真实的接口地址
+								filePath: tempFilePaths[0],
+								name: 'file',
+								success: (res) => {
+									let _res = JSON.parse(res.data)
+									if(_res.code == 1){
+										this.form.avatar =_res.data.url;
+									}else if(_res.code == 10000){
+										this.$message.error(_res.msg)
+										// uni.showToast({
+										//     title: _res.msg,
+										//     duration: 2000
+										// });
+									}
+								},
+								fail:(res)=>{
+									console.log(res)
+									console.log('上传失败')
+									this.$message.error('上传失败')
 								}
-							},
-							fail:(res)=>{
-								console.log(res)
-								console.log('上传失败')
-							}
-						});
+							});
+						}
 				    }
 				});
 			},
 			confirm(){
-				
+				this.$http.post('user.info.edit',this.form).then(res =>{
+					console.log(res)
+					if(res.code ==1){
+						this.$message.success('保存资料成功')
+					}else{
+						this.$message.error('保存资料失败')
+					}
+				})
 			}
 		},
 	}
