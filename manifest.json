@@ -1,5 +1,5 @@
 {
-    "name" : "Xshop商城",
+    "name" : "零元领吧",
     "appid" : "",
     "description" : "",
     "versionName" : "1.0.2",
@@ -114,9 +114,9 @@
             "mode" : "hash",
             "base" : ""
         },
-        "title" : "XShop商城",
+        "title" : "零元领吧",
         "domain" : "http://ly1.wuhanlst.com",
-		"publicPath": "./"
+        "publicPath" : "./"
     },
     "mp-toutiao" : {
         "appid" : ""

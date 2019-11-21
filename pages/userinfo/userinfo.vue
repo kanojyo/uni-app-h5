@@ -12,15 +12,14 @@
 		<view class="content">
 			<view class="row b-b">
 				<text class="tit">用户ID</text>
-				<input class="input" type="text" v-model="userInfo.user_id" placeholder="收货人姓名" disabled='true' placeholder-class="placeholder" />
+				<input class="input" type="text" v-model="userInfo.user_id"  disabled='true' placeholder-class="placeholder" />
 			</view>
 			<view class="row b-b">
 				<text class="tit">昵称</text>
-				<input class="input" type="text" v-model="form.nickname" placeholder="收货人姓名" placeholder-class="placeholder" />
+				<input class="input" type="text" v-model="form.nickname" placeholder="昵称" placeholder-class="placeholder" />
 			</view>
 			<view class="row b-b">
 				<text class="tit">性别</text>
-				<!-- <input class="input" type="text" v-model="form.gender" placeholder="收货人姓名" placeholder-class="placeholder" /> -->
 				<radio-group @change="radioChange">
 					<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in items" :key="item.value">
 						<view>
@@ -35,8 +34,8 @@
 				 <view class="uni-list">
 					 <view class="uni-list-cell">
 						 <view class="uni-list-cell-db">
-							 <picker mode="date" :value="form.birthday" @change="bindDateChange">
-								 <view class="uni-input">{{form.birthday}}</view>
+							 <picker mode="date" :value="form.birthday||date" :start="startDate" :end="endDate"  @change="bindDateChange">
+								 <view class="uni-input">{{form.birthday||date}}</view>
 							 </picker>
 						 </view>
 					 </view>
@@ -44,7 +43,7 @@
 			</view>
 			<view class="row b-b">
 				<text class="tit">手机号码</text>
-				<input class="input" type="text" v-model="form.mobile" placeholder="收货人姓名" placeholder-class="placeholder" />
+				<input class="input" type="text" v-model="form.mobile" placeholder="手机号码" placeholder-class="placeholder" />
 			</view>
 			<button class="add-btn" @click="confirm">完成</button>
 		</view>
@@ -59,6 +58,9 @@
 	import { processUrl } from "../../common/request/url.js";
 	export default {
 		data() {
+			const currentDate = this.getDate({
+				format: true
+			})
 			return {
 				userInfo:{},
 				form:{
@@ -81,14 +83,37 @@
 				],
 				current:0,
 				baseUrl:processUrl(),
+				date: currentDate,
 			};
 		},
 		onLoad(){
 			this.init();;
 		},
 		computed:{
+			startDate() {
+				return this.getDate('start');
+			},
+			endDate() {
+				return this.getDate('end');
+			}
 		},
 		methods:{
+			getDate(type) {
+				const date = new Date();
+				console.log(date)
+				let year = date.getFullYear();
+				let month = date.getMonth() + 1;
+				let day = date.getDate();
+	
+				if (type === 'start') {
+					year = year - 60;
+				} else if (type === 'end') {
+					year = year + 2;
+				}
+				month = month > 9 ? month : '0' + month;;
+				day = day > 9 ? day : '0' + day;
+				return `${year}-${month}-${day}`;
+			},
 			init(){
 				return Promise.all([this.getUserInfo()])
 			},
@@ -99,7 +124,11 @@
 						this.form.avatar = this.userInfo.avatar;
 						this.form.nickname = this.userInfo.nickname;
 						this.form.gender = this.userInfo.gender;
-						this.form.birthday = this.userInfo.birthday;
+						if(this.userInfo.birthday == ''){
+							// this.form.birthday =this.date;
+						}else{
+							this.form.birthday = this.userInfo.birthday;
+						}
 						this.form.mobile = this.userInfo.mobile;
 						this.current = this.form.gender;
 					}
@@ -115,6 +144,7 @@
 				}
 			},
 			bindDateChange(e) {
+				console.log(e)
 				this.form.birthday = e.target.value
 			},
 			editImg(){
@@ -138,7 +168,6 @@
 							return false
 						}else{
 							const tempFilePaths = res.tempFilePaths;
-							console.log(tempFilePaths)
 							uni.uploadFile({
 								url: this.baseUrl+'/addons/xshop/vendor/upload', //仅为示例，非真实的接口地址
 								filePath: tempFilePaths[0],
@@ -171,13 +200,17 @@
 			},
 			confirm(){
 				this.$http.post('user.info.edit',this.form).then(res =>{
-					console.log(res)
 					if(res.code ==1){
 						uni.showToast({
 						    title: '保存资料成功',
 							icon:'success',
 						    duration: 2000,
 						});
+						setTimeout(()=>{
+							uni.navigateBack({
+							    delta: 1
+							});
+						}, 2000);
 					}else{
 						uni.showToast({
 						    title: '保存资料失败',

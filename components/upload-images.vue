@@ -19,7 +19,7 @@
 export default {
 	data() {
 		return {
-			imageList: []
+			imageList: [],
 		};
 	},
 	props: {
@@ -56,6 +56,7 @@ export default {
 		},
 		//上传图片
 		async uploadFiles(images){
+			let uploadUrl;
 			this.imageList.push({
 				filePath: images[0],
 				progress: 0
@@ -65,7 +66,7 @@ export default {
 				mask: true,
 			})
 			try{
-				const uploadUrl = await this.uploadImage(images[0]);
+				uploadUrl = await this.uploadImage(images[0]);
 			}catch(err){
 				console.log(err);
 				return;
@@ -106,8 +107,8 @@ export default {
 					formData: formData,
 					success(uploadFileResult){
 						const uploadFileRes = JSON.parse(uploadFileResult.data) || {};
-						if(uploadFileRes.status === 1 && uploadFileRes.data){
-							resolve(uploadFileRes.data);
+						if(uploadFileRes.code === 1 && uploadFileRes.data){
+							resolve(uploadFileRes.data.url);
 						}else{
 							reject('接口返回错误');
 						}
@@ -144,6 +145,15 @@ export default {
 				urls: urls,
 				indicator: "number"
 			})
+		},
+		//向父组件传图片地址;
+		transmitImg(){
+			let imgUrl=[];
+			this.imageList.forEach(item => {
+				imgUrl.push(item.src);
+			})
+			// console.log(imgUrl, '子组件')
+			this.$emit("toFatherData",imgUrl)
 		}
 	}
 }
@@ -151,7 +161,7 @@ export default {
 
 <style lang="scss">
 	.upload-content{
-		padding:24upx 0 0 28upx;
+		padding:24upx 0 20upx 28upx;
 		background-color: #fff;
 		overflow:hidden;
 	}
@@ -199,6 +209,7 @@ export default {
 		float:left;
 		width: 150upx;
 		height: 150upx;
+		margin-bottom:20upx;
 		z-index: 99;
 		border-radius:8upx;
 		background:#f9f9f9;

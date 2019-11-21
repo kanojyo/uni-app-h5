@@ -41,7 +41,7 @@
 		computed: {
 			...mapState({
 				address: state => state.user.address
-			})
+			}),
 		},
 		methods: {
 			...mapActions(['getUserAddress']),

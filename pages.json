@@ -4,7 +4,7 @@
 			"path": "pages/index/index",
 			"style": {
 				// #ifdef MP 
-				"navigationBarTitleText": "XShop商城",
+				"navigationBarTitleText": "零元领吧",
 				//"navigationStyle": "custom",
 				// #endif 
 				"h5": {
@@ -65,7 +65,12 @@
 				"navigationBarTitleText": "设置"
 			}
 		},
-
+		{
+			"path": "pages/feedback/feedback",
+			"style": {
+				"navigationBarTitleText": "意见反馈"
+			}
+		},
 		{
 			"path": "pages/userinfo/userinfo",
 			"style": {
@@ -242,6 +247,24 @@
 				"enablePullDownRefresh": true,
 				"navigationBarTitleText": "网页浏览"
 			}
+		},{
+			"path": "pages/webview/shop",
+			"style": {
+				"navigationStyle":"custom",
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "商家入驻",
+				"app-plus":{
+					"titleNView":{
+						"autoBackButton":"false"
+					}
+				}
+			}
+		},{
+			"path": "pages/member/member",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "我的会员"
+			}
 		}, {
 			"path": "pages/user/favorite",
 			"style": {
@@ -277,7 +300,7 @@
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "XShop商城",
+		"navigationBarTitleText": "零元领吧",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#f8f8f8"
 	},

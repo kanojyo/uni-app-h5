@@ -6,7 +6,7 @@
 			<view class="user-info-box">
 				<view class="portrait-box">
 					<!-- #ifdef H5 -->
-					<img class="portrait" :src="userinfo.avatar || '/static/missing-face.png'"  @click="goUserInfo"/>
+					<img class="portrait" :src="userinfo.avatar || '/static/missing-face.png'"  @click="navTo('/pages/userinfo/userinfo')"/>
 					<!-- #endif -->
 					<!-- #ifndef H5 -->
 					<image class="portrait" :src="userinfo.avatar || '/static/missing-face.png'"></image>
@@ -88,9 +88,12 @@
 						:src="item.product.image[0]"></image>
 				</scroll-view>
 				<list-cell icon="icon-iconfontweixin" iconColor="#5fcda2" title="我的优惠券" v-if="$tools.has_addon('xshopcoupon')" @eventClick="navPlugin('xshopcoupon', '/pages/user/coupon')"></list-cell>
+				<list-cell icon="icon-dizhi" iconColor="#5fcda2" title="我的会员" @eventClick="navTo('/pages/member/member')"></list-cell>
 				<list-cell icon="icon-dizhi" iconColor="#5fcda2" title="地址管理" @eventClick="navTo('/pages/address/address')"></list-cell>
 				<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" title="我的收藏" @eventClick="navTo('/pages/user/favorite')"></list-cell>
 				<list-cell icon="icon-shezhi" iconColor="#e07472" title="设置" @eventClick="navTo('/pages/set/set')"></list-cell>
+				<list-cell icon="icon-shezhi1" iconColor="#e07472" title="意见反馈" @eventClick="navTo('/pages/feedback/feedback')"></list-cell>
+				<list-cell icon="icon-shezhi1" iconColor="#e07472" title="关于我们" @eventClick="navTo('/pages/set/set')"></list-cell>
 				<list-cell icon="icon-shezhi1" iconColor="#e07472" title="当前版本" v-if="appVersion" :tips="appVersion" @eventClick="checkVersion"></list-cell>
 
 				<view class="list-cell log-out-btn" v-if="userinfo.id" @click="toLogout">
@@ -201,11 +204,6 @@
 						this.orderNum.over_num ='';
 					}
 					
-				})
-			},
-			goUserInfo(){
-				uni.navigateTo({
-					url: '/pages/userinfo/userinfo'
 				})
 			},
 			/**

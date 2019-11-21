@@ -119,7 +119,28 @@ export default {
 	'user.orderNum':{
 		uri:'/user/getOrderNum'
 	},
+	'user.feedback':{
+		uri:'/feedback/addFeedback'
+	},
 	/** 用户 ↑ */
+	
+	/** 会员 ↓ */
+	'vip.info':{
+		uri:'/vip/info'
+	},
+	'vip.cardList':{
+		uri:'/vip/get_card_list'
+	},
+	'vip.getScoreList':{
+		uri:'/vip/getScoreList'
+	},
+	'shop.shopList':{
+		uri:'/shop/get_shop_list'
+	},
+	'shop.recharge':{
+		uri:'/shop/get_shop_recharge'
+	},
+	/** 会员 ↑ */
 	
 	/** 订单 ↓ */
 	'order.list': {
@@ -151,7 +172,7 @@ export default {
 	},
 	/** 订单 ↑ */
 	
-	/** 图片上传 ↑ */
+	/** 图片上传 ↓ */
 	'upload': {
 		uri: 'vendor/upload'
 	},
@@ -167,8 +188,22 @@ export default {
 	},
 	logout: {
 		uri: 'index/logout'
-	}
+	},
 	
+	/** 商家入驻 ↓ */
+	'shop.shop_apply': {
+		uri: '/shop/shop_apply'
+	},
+	'shop.shopInfo': {
+		uri: '/shop/get_shop_info'
+	},
+	'shop.shopBond': {
+		uri: '/shop/get_shop_bond'
+	},
+	'vip.shopUserList': {
+		uri: '/shop/getShopUserList'
+	},
+	/** 商家入驻 ↑ */
 
     // 可以设置接口是否需要授权访问
     // login: {
