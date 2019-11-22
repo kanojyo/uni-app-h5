@@ -49,7 +49,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="card-no" wx-else>
+			<view class="card-no" v-else>
 				<view class="info">
 					<view class="img-content">
 						<image :src="'/static/u1669.png'" mode="widthFix"></image>

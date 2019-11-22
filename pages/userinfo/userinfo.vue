@@ -168,25 +168,29 @@
 							return false
 						}else{
 							const tempFilePaths = res.tempFilePaths;
+							uni.showLoading({
+								title: '请稍后..',
+								mask: true,
+							})
 							uni.uploadFile({
 								url: this.baseUrl+'/addons/xshop/vendor/upload', //仅为示例，非真实的接口地址
 								filePath: tempFilePaths[0],
 								name: 'file',
 								success: (res) => {
+									uni.hideLoading();
 									let _res = JSON.parse(res.data)
 									if(_res.code == 1){
 										this.form.avatar =_res.data.url;
 									}else if(_res.code == 10000){
-										uni.showToast({
-										    title: _res.msg,
-											icon:'none',
-										    duration: 2000,
-										});
+										// uni.showToast({
+										//     title: _res.msg,
+										// 	icon:'none',
+										//     duration: 2000,
+										// });
 									}
 								},
 								fail:(res)=>{
-									console.log(res)
-									console.log('上传失败')
+									uni.hideLoading();
 									uni.showToast({
 									    title: '上传失败',
 										icon:'none',

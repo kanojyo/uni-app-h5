@@ -248,16 +248,25 @@
 				"navigationBarTitleText": "网页浏览"
 			}
 		},{
-			"path": "pages/webview/shop",
+			"path": "pages/shop/shop",
 			"style": {
 				"navigationStyle":"custom",
 				"enablePullDownRefresh": true,
-				"navigationBarTitleText": "商家入驻",
-				"app-plus":{
-					"titleNView":{
-						"autoBackButton":"false"
-					}
-				}
+				"navigationBarTitleText": "我的店铺"
+			}
+		},{
+			"path": "pages/shop/shopApply",
+			"style": {
+				"navigationStyle":"custom",
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "入驻申请"
+			}
+		},{
+			"path": "pages/shop/applySuccess",
+			"style": {
+				"navigationStyle":"custom",
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "提交成功"
 			}
 		},{
 			"path": "pages/member/member",

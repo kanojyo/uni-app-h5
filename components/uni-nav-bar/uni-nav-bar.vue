@@ -116,11 +116,12 @@
 	$nav-height: 44px;
 	.uni-nav-bar-text {
 		/* #ifdef APP-PLUS */
-		font-size: 34rpx;
+		font-size: 30rpx;
 		/* #endif */
 		/* #ifndef APP-PLUS */
-		font-size: $uni-font-size-lg;
+		font-size: 30rpx;
 		/* #endif */
+		font-weight:bold;
 	}
 	.uni-nav-bar-right-text {
 		font-size: $uni-font-size-base;
