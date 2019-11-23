@@ -192,16 +192,22 @@ export default {
 	
 	/** 商家入驻 ↓ */
 	'shop.shop_apply': {
-		uri: '/shop/shop_apply'
+		uri: 'shop/shop_apply'
 	},
 	'shop.shopInfo': {
-		uri: '/shop/get_shop_info'
+		uri: 'shop/get_shop_info'
 	},
 	'shop.shopBond': {
-		uri: '/shop/get_shop_bond'
+		uri: 'shop/get_shop_bond'
 	},
 	'vip.shopUserList': {
-		uri: '/shop/getShopUserList'
+		uri: 'shop/getShopUserList'
+	},
+	'vip.consumeList': {
+		uri: 'vip/getShopConsumeList'
+	},
+	'shop.shopList': {
+		uri: 'shop/get_shop_list'
 	},
 	/** 商家入驻 ↑ */
 
